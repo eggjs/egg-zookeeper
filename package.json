@@ -11,6 +11,7 @@
     "egg-plugin"
   ],
   "dependencies": {
+    "humanize-ms": "^1.2.0",
     "zookeeper": "^3.4.9-3"
   },
   "devDependencies": {

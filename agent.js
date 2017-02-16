@@ -1,14 +1,13 @@
 'use strict';
 
-const ZooKeeper = require('zookeeper');
+const utils = require('./lib/utils');
+const ZooKeeperClient = require('node-zookeeper-client').Client;
 
 module.exports = agent => {
-  console.log('agent.config.env =', agent.config.env);
+  const options = agent.config.zookeeper;
+  utils.convertMs(options, [ 'sessionTimeout', 'spinDelay', 'retries' ]);
 
-  const zookeeper = new ZooKeeper({
-    connect: "localhost:2181",
-    timeout: 200000,
-    debug_level: ZooKeeper.ZOO_LOG_LEVEL_WARN,
-    host_order_deterministic: false,
-  });
+  agent
+    .cluster(ZooKeeperClient)
+    .create(options);
 };
