@@ -15,23 +15,22 @@
   },
   "devDependencies": {
     "autod": "^2.7.1",
-    "egg": "^0.7.0",
-    "egg-bin": "^1.10.0",
+    "egg": "^0.12.0",
+    "egg-bin": "^2.2.0",
     "egg-ci": "^1.1.0",
-    "egg-mock": "^2.0.0",
-    "eslint": "^3.13.1",
+    "egg-mock": "^3.0.0",
+    "eslint": "^3.15.0",
     "eslint-config-egg": "^3.2.0",
-    "supertest": "^2.0.1",
+    "supertest": "^3.0.0",
     "webstorm-disable-index": "^1.1.2"
   },
   "engines": {
     "node": ">=6.0.0"
   },
   "scripts": {
-    "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test",
+    "test": "egg-bin test",
     "cov": "egg-bin cov",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "ci": "npm run lint && npm run cov",
     "autod": "autod"
   },
