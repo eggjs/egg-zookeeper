@@ -11,7 +11,9 @@
     "egg-plugin"
   ],
   "dependencies": {
+    "await-event": "^2.0.0",
     "humanize-ms": "^1.2.0",
+    "sdk-base": "^3.0.1",
     "zookeeper": "^3.4.9-3"
   },
   "devDependencies": {
