@@ -24,8 +24,20 @@ describe('test/zookeeper.test.js', () => {
     assert(path === '/shaoshuai0102');
   });
 
-  it('#create()', function* () {
-    const path = yield app.zookeeper.create('/shaoshuai0102/1234');
-    assert(path === '/shaoshuai0102/1234');
+  it('#create() && exists()', function* () {
+    const path = '/shaoshuai0102/1234';
+    const ret = yield app.zookeeper.create(path);
+    assert(ret === '/shaoshuai0102/1234');
+    const stat = yield app.zookeeper.exists(path);
+    console.log('stat', stat);
+    // TODO stat 在 APIClient 上实现下
+    assert(stat);
+  });
+
+  it('#remove() && exists()', function* () {
+    const path = '/shaoshuai0102/1234';
+    yield app.zookeeper.remove(path);
+    const stat = yield app.zookeeper.exists(path);
+    assert(stat === null);
   });
 });
