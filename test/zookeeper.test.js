@@ -18,4 +18,14 @@ describe('test/zookeeper.test.js', () => {
   it('should ready', () => {
     assert(app.zookeeper);
   });
+
+  it('#mkdirp()', function* () {
+    const path = yield app.zookeeper.mkdirp('/shaoshuai0102');
+    assert(path === '/shaoshuai0102');
+  });
+
+  it('#create()', function* () {
+    const path = yield app.zookeeper.create('/shaoshuai0102/1234');
+    assert(path === '/shaoshuai0102/1234');
+  });
 });

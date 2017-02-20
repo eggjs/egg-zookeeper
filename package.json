@@ -11,10 +11,10 @@
     "egg-plugin"
   ],
   "dependencies": {
-    "await-event": "^2.0.0",
+    "delegates": "^1.0.0",
     "humanize-ms": "^1.2.0",
-    "sdk-base": "^3.0.1",
-    "zookeeper": "^3.4.9-3"
+    "node-zookeeper-client": "^0.2.2",
+    "sdk-base": "^3.0.1"
   },
   "devDependencies": {
     "autod": "^2.7.1",

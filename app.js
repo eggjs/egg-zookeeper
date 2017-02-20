@@ -1,21 +1,16 @@
 'use strict';
 
-const await = require('await-event');
 const utils = require('./lib/utils');
-const ZooKeeperClient = require('node-zookeeper-client').Client;
+const ZooKeeperAPIClient = require('./lib/zookeeper_api_client');
 
 module.exports = app => {
   const options = app.config.zookeeper;
   utils.convertMs(options, [ 'sessionTimeout', 'spinDelay', 'retries' ]);
 
-  const zookeeper = app.zookeeper = app
-    .cluster(ZooKeeperClient)
-    .delegate('connect')
-    .override('await', await)
-    .create(options.connectionString, options);
-
+  const opts = Object.assign({}, options, { cluster: app.cluster.bind(app) });
+  const zookeeper = app.zookeeper = new ZooKeeperAPIClient(opts);
 
   app.beforeStart(function* () {
-    yield zookeeper.await('connected');
+    yield zookeeper.ready();
   });
 };
