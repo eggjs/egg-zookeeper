@@ -7,4 +7,6 @@ run/
 .DS_Store
 *.swp
 .vscode
+.zk
+zookeeper.out
 
