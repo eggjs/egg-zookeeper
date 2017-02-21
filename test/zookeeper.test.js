@@ -77,7 +77,36 @@ describe('test/zookeeper.test.js', () => {
     assert(ret.acls);
   });
 
-  it('#remove() && exists()', function* () {
+  it('should auth fail', function* () {
+    let err;
+
+    try {
+      yield app.zookeeper.create(path + '/5');
+    } catch (e) {
+      err = e;
+    }
+
+    assert(err.message === 'Exception: NO_AUTH[-102]');
+  });
+
+  it('#addAuthInfo()', function* () {
+    yield app.zookeeper.addAuthInfo('ip', '127.0.0.1');
+  });
+
+  it('should auth success', function* () {
+    yield callback => setTimeout(callback, 3000);
+    let err;
+
+    try {
+      yield app.zookeeper.setData(path, 'adgasdg');
+    } catch (e) {
+      err = e;
+    }
+
+    assert(!err);
+  });
+
+  it.skip('#remove() && exists()', function* () {
     yield [
       app.zookeeper.remove(path + '/1'),
       app.zookeeper.remove(path + '/2'),
