@@ -1,0 +1,7 @@
+lib/app/proxy
+test/benchmark
+app/model
+app/enums
+examples
+coverage/
+zookeeper-3.4.6/
