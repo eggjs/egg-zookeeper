@@ -5,36 +5,30 @@ const assert = require('assert');
 
 describe('test/index.test.js', () => {
   let app;
-  before(function* () {
+  before(async function() {
     app = mm.app({
       baseDir: 'apps/zk',
     });
-    yield app.ready();
+    await app.ready();
   });
   afterEach(mm.restore);
-  after(function* () {
-    yield app.close();
+  after(async function() {
+    await app.close();
   });
 
-  it('should create zk client ok', function* () {
+  it('should create zk client ok', async function() {
     const client = new app.zk.createClient('localhost:2181');
-    yield client.ready();
+    await client.ready();
 
     const path = '/unittest3';
-
-    const isExsits = yield cb => {
-      client.exists(path, (err, data) => cb(err, data));
-    };
+    const isExsits = await client.exists(path);
 
     if (isExsits) {
-      yield cb => {
-        client.remove(path, (err, data) => cb(err, data));
-      };
+      await client.remove(path);
     }
 
-    yield cb => {
-      client.create(path, (err, data) => cb(err, data));
-    };
+    await client.create(path);
+
     client.watch(path, (err, data) => {
       if (err) {
         client.emit('error', err);
@@ -45,12 +39,12 @@ describe('test/index.test.js', () => {
       }
     });
 
-    client.setData(path, new Buffer('123'), () => {});
-    let ret = yield client.await(path);
+    client.setData(path, new Buffer('123'));
+    let ret = await client.await(path);
     assert(ret.toString() === '123');
 
-    client.setData(path, new Buffer('321'), () => {});
-    ret = yield client.await(path);
+    client.setData(path, new Buffer('321'));
+    ret = await client.await(path);
     assert(ret.toString() === '321');
   });
 

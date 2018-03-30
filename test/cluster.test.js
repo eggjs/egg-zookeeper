@@ -5,22 +5,22 @@ const assert = require('assert');
 
 describe('test/cluster.test.js', () => {
   let app;
-  before(function* () {
+  before(async function() {
     app = mm.cluster({
       baseDir: 'apps/zk',
     });
-    yield app.ready();
+    await app.ready();
   });
   afterEach(mm.restore);
-  after(function* () {
-    yield app.close();
+  after(async function() {
+    await app.close();
   });
 
   const testpath = '/unittest4';
   const testdata = 'unittest-data:' + Date.now();
 
-  it('should create zk client & get data ok', function* () {
-    let ret = yield app.httpRequest()
+  it('should create zk client & get data ok', async function() {
+    let ret = await app.httpRequest()
       .get(`/create?path=${testpath}`)
       .expect(200)
       .then(res => {
@@ -28,7 +28,7 @@ describe('test/cluster.test.js', () => {
       });
     assert(ret === 'ok');
 
-    ret = yield app.httpRequest()
+    ret = await app.httpRequest()
       .get(`/setData?path=${testpath}&value=${testdata}`)
       .expect(200)
       .then(res => {
@@ -36,7 +36,7 @@ describe('test/cluster.test.js', () => {
       });
     assert(ret === 'ok');
 
-    ret = yield app.httpRequest()
+    ret = await app.httpRequest()
       .get(`/getData?path=${testpath}`)
       .expect(200)
       .then(res => {
